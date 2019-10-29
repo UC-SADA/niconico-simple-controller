@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=IE9">
+    <hta:application applicationname="simple-controller" singleinstance="yes" showintaskbar="yes" caption="no" border="none" innerborder="no" navigable="yes" CONTEXTMENU = "no" SCROLL="no">
+    <title>simple-controller</title>
+    <script>
+      window.onload = function() {
+        var fs = new ActiveXObject("Scripting.FileSystemObject");
+        var f = fs.GetFile("setting.ini");
+        var rs = f.OpenAsTextStream();
+        var i = 0;
+        var list = new Array(4);
+        while (!rs.AtEndOfStream) {
+          list[i] = rs.ReadLine();
+          i++;
+        }
+        var room_id = list[0];
+        var name = list[1];
+        var duration = list[2];
+        var name_on = list[3];
+        var width  = 200;
+        var height = 86;
+        window.resizeTo(width, height);
+        window.moveTo((screen.availWidth - width), (screen.availHeight - height));
+        try {
+          var excel = new ActiveXObject("Excel.Application");
+          var hwnd = excel.ExecuteExcel4Macro("CALL(\"user32\", \"FindWindowA\", \"JCC\", \"HTML Application Host Window Class\", \"" + document.title + "\")");
+          excel.ExecuteExcel4Macro("CALL(\"user32\", \"SetWindowPos\", \"JJJJJJJJ\", " + hwnd + ", -1, 0, 0, 0, 0, 3)");
+          excel = null;
+        }
+        catch(e) {
+        }
+        //location.href = "test.html";
+        //location.href = "http://localhost:2525/controller_s/" + room_id + "/" + name+"?duration=" +duration+"&name_on=" +name_on;
+        location.href = "https://nico-chat.herokuapp.com/controller_s/" + room_id + "/" + name+"?duration=" +duration+"&name_on=" +name_on;
+      }
+    </script>
+  </head>
+</html>
